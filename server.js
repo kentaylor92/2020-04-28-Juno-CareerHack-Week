@@ -10,11 +10,19 @@ const express = require('express');
 // but here i am only creating a single instance.
 const app = express();
 
+// register static MiddleWare
+const folderInWhichToLook = 'public';
+const staticMiddleware = express.static(folderInWhichToLook);
+app.use(staticMiddleware);
+
 // I am now creating a GET endpoint 
 // GET / will return "Hello World" in my browser
 // I can visit it by going to localhost:3000
-app.get('/', (req, res) => {
-    res.send('Hello World');
+app.get('/api/json', (req, res) => {
+    const json = {};
+    json.message = 'Hello World';
+    
+    res.json(json);
 });
 
 // start the server and take port 3000
