@@ -1,34 +1,27 @@
-// this is similar to doing:
-// import express from 'express';
 const express = require('express');
 
-// i'm creating a new server instance
-// node lets you create as many servers as you want
-// this is extremely powerful!
-// ..
-// ..
-// but here i am only creating a single instance.
 const app = express();
 
-// register static MiddleWare
+// register the static "middleware"
 const folderInWhichToLook = 'public';
-const staticMiddleware = express.static(folderInWhichToLook);
+const staticMiddleware = express.static(folderInWhichToLook)
 app.use(staticMiddleware);
 
-// I am now creating a GET endpoint 
-// GET / will return "Hello World" in my browser
-// I can visit it by going to localhost:3000
+let numberOfClicks = 0;
+
+// i changed my route because i want my `index.html` to be server from the root
 app.get('/api/json', (req, res) => {
     const json = {};
-    json.message = 'Hello World';
-    
+    json.message = 'Hello!! World!!!!!';
+    json.otherMessage = 'Foo Bar Baz';
+    json.numberOfClicks = numberOfClicks;
+
     res.json(json);
 });
 
-// start the server and take port 3000
-app.listen(
-    // I am now actually running the server on port 3000
-    3000,
-    // callback that runs when the server successfully starts
-    () => console.log(`Now listening on localhost:3000`)
-);
+app.post('/api/json', (req, res) => {
+    numberOfClicks++;
+    res.redirect('/');
+})
+
+app.listen(3000, () => console.log(`Now listening on localhost:3000`));
